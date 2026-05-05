@@ -1,42 +1,10 @@
 {
-  "updatedAt": "2026-05-05 18:00",
-  "source": "Demo data - replace with Pharmaceutical Services / data.gov.cy",
-  "pharmacies": [
-    {
-      "id": "demo-nicosia-1",
-      "name": "Demo Pharmacy Nicosia",
-      "district": "Λευκωσία",
-      "area": "Στρόβολος",
-      "address": "Λεωφ. Τσερίου 34Γ, Στρόβολος",
-      "additionalInfo": "Demo pin. Replace with official data.",
-      "phone": "22311995",
-      "date": "2026-05-05",
-      "lat": 35.1327,
-      "lng": 33.3395
-    },
-    {
-      "id": "demo-limassol-1",
-      "name": "Demo Pharmacy Limassol",
-      "district": "Λεμεσός",
-      "area": "Λεμεσός",
-      "address": "Λεωφ. 28ης Οκτωβρίου, Λεμεσός",
-      "additionalInfo": "Demo pin. Replace with official data.",
-      "phone": "25337050",
-      "date": "2026-05-05",
-      "lat": 34.6809,
-      "lng": 33.0436
-    },
-    {
-      "id": "demo-larnaca-1",
-      "name": "Demo Pharmacy Larnaca",
-      "district": "Λάρνακα",
-      "area": "Λάρνακα",
-      "address": "Λεωφ. Αθηνών, Λάρνακα",
-      "additionalInfo": "Demo pin. Replace with official data.",
-      "phone": "24600000",
-      "date": "2026-05-05",
-      "lat": 34.9141,
-      "lng": 33.6382
-    }
-  ]
+    "updatedAt": "2026-05-05T19:34:37+03:00",
+    "date": "2026-05-05",
+    "source": "Pharmaceutical Services / data.gov.cy - Κατάλογος Διημερευόντων Φαρμακείων",
+    "sourceUrl": "https://www.data.gov.cy/el/dataset/katalogos-diimereyonton-farmakeion",
+    "license": "Creative Commons Attribution 4.0 International",
+    "total": 0,
+    "missingCoordinates": 0,
+    "pharmacies": []
 }
