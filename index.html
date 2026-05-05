@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyprus Open Pharmacies Map</title>
+  <meta name="description" content="Interactive map of open duty pharmacies in Cyprus with directions and phone links." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #14213d;
+      --muted: #667085;
+      --border: #d9dee8;
+      --accent: #1677ff;
+      --accent-dark: #0d47a1;
+      --danger: #b42318;
+      --shadow: 0 10px 30px rgba(20, 33, 61, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      height: 100%;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 18px;
+      overflow: auto;
+      z-index: 500;
+      box-shadow: var(--shadow);
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .status {
+      display: grid;
+      gap: 4px;
+      margin-bottom: 14px;
+      padding: 12px;
+      background: #f1f6ff;
+      border: 1px solid #c8dcff;
+      border-radius: 14px;
+      font-size: 13px;
+    }
+
+    .status strong { color: var(--accent-dark); }
+
+    .controls {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    input, select, button {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .results-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 10px 0;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(20, 33, 61, 0.06);
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin: 4px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .actions a {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .directions { background: var(--accent); color: #fff; }
+    .call { background: #eef4ff; color: var(--accent-dark); }
+
+    #map { height: 100%; min-height: 100vh; }
+
+    .leaflet-popup-content {
+      min-width: 230px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .popup-title {
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .popup-line {
+      color: #475467;
+      margin: 3px 0;
+      font-size: 13px;
+    }
+
+    .popup-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .popup-actions a {
+      text-align: center;
+      padding: 8px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .empty {
+      padding: 14px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .warning {
+      margin-top: 14px;
+      color: var(--danger);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: 48vh auto;
+      }
+
+      #map {
+        min-height: 48vh;
+        order: 1;
+      }
+
+      .sidebar {
+        order: 2;
+        border-right: 0;
+        border-top: 1px solid var(--border);
+        max-height: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="sidebar">
+      <h1 class="title">Cyprus Open Pharmacies</h1>
+      <p class="subtitle">Find today’s duty pharmacies on a map, call directly, or open directions.</p>
+
+      <section class="status" aria-live="polite">
+        <div><strong id="statusLabel">Loading pharmacies…</strong></div>
+        <div id="updatedAt">Checking local JSON data.</div>
+        <div id="sourceLabel">Source: local demo data</div>
+      </section>
+
+      <section class="controls" aria-label="Filters">
+        <input id="searchInput" type="search" placeholder="Search pharmacy, area, address…" />
+        <select id="districtSelect">
+          <option value="">All districts</option>
+        </select>
+        <button id="nearestButton" type="button">Use my location</button>
+      </section>
+
+      <div class="results-meta">
+        <span id="countLabel">0 pharmacies</span>
+        <span id="sortLabel">Sorted by district</span>
+      </div>
+
+      <section id="pharmacyList" class="list" aria-label="Pharmacy results"></section>
+
+      <p class="warning">Please call before visiting. Duty schedules and locations may change.</p>
+    </aside>
+
+    <section id="map" aria-label="Map of open pharmacies"></section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const samplePharmacies = [
+      {
+        id: "demo-nicosia-1",
+        name: "Demo Pharmacy Nicosia",
+        district: "Λευκωσία",
+        area: "Στρόβολος",
+        address: "Λεωφ. Τσερίου 34Γ, Στρόβολος",
+        additionalInfo: "Demo pin. Replace with official data.",
+        phone: "22311995",
+        date: new Date().toISOString().slice(0, 10),
+        lat: 35.1327,
+        lng: 33.3395
+      },
+      {
+        id: "demo-limassol-1",
+        name: "Demo Pharmacy Limassol",
+        district: "Λεμεσός",
+        area: "Λεμεσός",
+        address: "Λεωφ. 28ης Οκτωβρίου, Λεμεσός",
+        additionalInfo: "Demo pin. Replace with official data.",
+        phone: "25337050",
+        date: new Date().toISOString().slice(0, 10),
+        lat: 34.6809,
+        lng: 33.0436
+      },
+      {
+        id: "demo-larnaca-1",
+        name: "Demo Pharmacy Larnaca",
+        district: "Λάρνακα",
+        area: "Λάρνακα",
+        address: "Λεωφ. Αθηνών, Λάρνακα",
+        additionalInfo: "Demo pin. Replace with official data.",
+        phone: "24600000",
+        date: new Date().toISOString().slice(0, 10),
+        lat: 34.9141,
+        lng: 33.6382
+      }
+    ];
+
+    let pharmacies = [];
+    let markers = [];
+    let userLocation = null;
+
+    const map = L.map("map", { scrollWheelZoom: true }).setView([35.05, 33.22], 9);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    const elements = {
+      statusLabel: document.getElementById("statusLabel"),
+      updatedAt: document.getElementById("updatedAt"),
+      sourceLabel: document.getElementById("sourceLabel"),
+      searchInput: document.getElementById("searchInput"),
+      districtSelect: document.getElementById("districtSelect"),
+      nearestButton: document.getElementById("nearestButton"),
+      countLabel: document.getElementById("countLabel"),
+      sortLabel: document.getElementById("sortLabel"),
+      pharmacyList: document.getElementById("pharmacyList")
+    };
+
+    async function loadData() {
+      try {
+        const response = await fetch("data/open-pharmacies.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("JSON file not found");
+        const payload = await response.json();
+        pharmacies = Array.isArray(payload.pharmacies) ? payload.pharmacies : payload;
+        elements.statusLabel.textContent = "Open pharmacies loaded";
+        elements.updatedAt.textContent = payload.updatedAt ? `Last updated: ${payload.updatedAt}` : "Last updated: from JSON file";
+        elements.sourceLabel.textContent = payload.source ? `Source: ${payload.source}` : "Source: data/open-pharmacies.json";
+      } catch (error) {
+        pharmacies = samplePharmacies;
+        elements.statusLabel.textContent = "Demo mode";
+        elements.updatedAt.textContent = "Create data/open-pharmacies.json to show real data.";
+        elements.sourceLabel.textContent = "Source: sample data";
+      }
+
+      populateDistricts();
+      render();
+    }
+
+    function populateDistricts() {
+      const districts = [...new Set(pharmacies.map(item => item.district).filter(Boolean))].sort((a, b) => a.localeCompare(b, "el"));
+      for (const district of districts) {
+        const option = document.createElement("option");
+        option.value = district;
+        option.textContent = district;
+        elements.districtSelect.appendChild(option);
+      }
+    }
+
+    function getFilteredPharmacies() {
+      const query = elements.searchInput.value.trim().toLowerCase();
+      const district = elements.districtSelect.value;
+
+      let filtered = pharmacies.filter(pharmacy => {
+        const matchesDistrict = !district || pharmacy.district === district;
+        const haystack = [
+          pharmacy.name,
+          pharmacy.district,
+          pharmacy.area,
+          pharmacy.address,
+          pharmacy.additionalInfo,
+          pharmacy.phone
+        ].filter(Boolean).join(" ").toLowerCase();
+        return matchesDistrict && (!query || haystack.includes(query));
+      });
+
+      if (userLocation) {
+        filtered = filtered
+          .map(pharmacy => ({ ...pharmacy, distanceKm: distanceKm(userLocation.lat, userLocation.lng, pharmacy.lat, pharmacy.lng) }))
+          .sort((a, b) => a.distanceKm - b.distanceKm);
+      } else {
+        filtered = filtered.sort((a, b) => `${a.district} ${a.area}`.localeCompare(`${b.district} ${b.area}`, "el"));
+      }
+
+      return filtered;
+    }
+
+    function render() {
+      const filtered = getFilteredPharmacies();
+      renderMarkers(filtered);
+      renderList(filtered);
+      elements.countLabel.textContent = `${filtered.length} ${filtered.length === 1 ? "pharmacy" : "pharmacies"}`;
+      elements.sortLabel.textContent = userLocation ? "Sorted by distance" : "Sorted by district";
+    }
+
+    function renderMarkers(items) {
+      for (const marker of markers) marker.remove();
+      markers = [];
+
+      const bounds = [];
+
+      for (const pharmacy of items) {
+        if (!pharmacy.lat || !pharmacy.lng) continue;
+
+        const marker = L.marker([pharmacy.lat, pharmacy.lng]).addTo(map);
+        marker.bindPopup(popupHtml(pharmacy));
+        markers.push(marker);
+        bounds.push([pharmacy.lat, pharmacy.lng]);
+      }
+
+      if (bounds.length > 0) {
+        map.fitBounds(bounds, { padding: [34, 34], maxZoom: 15 });
+      }
+    }
+
+    function renderList(items) {
+      elements.pharmacyList.innerHTML = "";
+
+      if (items.length === 0) {
+        elements.pharmacyList.innerHTML = '<div class="empty">No pharmacies match your search.</div>';
+        return;
+      }
+
+      for (const pharmacy of items) {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <span class="badge">${escapeHtml(pharmacy.district || "Cyprus")}</span>
+          <h2>${escapeHtml(pharmacy.name || "Pharmacy")}</h2>
+          <p>${escapeHtml(pharmacy.address || "Address not available")}</p>
+          <p>${escapeHtml(pharmacy.area || "")}</p>
+          ${pharmacy.additionalInfo ? `<p>${escapeHtml(pharmacy.additionalInfo)}</p>` : ""}
+          ${pharmacy.distanceKm ? `<p><strong>${pharmacy.distanceKm.toFixed(1)} km away</strong></p>` : ""}
+          <div class="actions">
+            <a class="directions" href="${directionsUrl(pharmacy)}" target="_blank" rel="noopener">Directions</a>
+            <a class="call" href="tel:${safePhone(pharmacy.phone)}">Call</a>
+          </div>
+        `;
+        card.addEventListener("click", () => focusPharmacy(pharmacy));
+        elements.pharmacyList.appendChild(card);
+      }
+    }
+
+    function popupHtml(pharmacy) {
+      return `
+        <div class="popup-title">${escapeHtml(pharmacy.name || "Pharmacy")}</div>
+        <div class="popup-line">${escapeHtml(pharmacy.address || "Address not available")}</div>
+        <div class="popup-line">${escapeHtml(pharmacy.area || "")}</div>
+        ${pharmacy.additionalInfo ? `<div class="popup-line">${escapeHtml(pharmacy.additionalInfo)}</div>` : ""}
+        ${pharmacy.phone ? `<div class="popup-line">Tel: ${escapeHtml(pharmacy.phone)}</div>` : ""}
+        <div class="popup-actions">
+          <a class="directions" href="${directionsUrl(pharmacy)}" target="_blank" rel="noopener">Directions</a>
+          <a class="call" href="tel:${safePhone(pharmacy.phone)}">Call</a>
+        </div>
+      `;
+    }
+
+    function focusPharmacy(pharmacy) {
+      if (!pharmacy.lat || !pharmacy.lng) return;
+      map.setView([pharmacy.lat, pharmacy.lng], 16);
+      const marker = markers.find(item => {
+        const point = item.getLatLng();
+        return Number(point.lat).toFixed(6) === Number(pharmacy.lat).toFixed(6)
+          && Number(point.lng).toFixed(6) === Number(pharmacy.lng).toFixed(6);
+      });
+      if (marker) marker.openPopup();
+    }
+
+    function directionsUrl(pharmacy) {
+      if (pharmacy.lat && pharmacy.lng) {
+        return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${pharmacy.lat},${pharmacy.lng}`)}`;
+      }
+      const textDestination = [pharmacy.name, pharmacy.address, pharmacy.area, "Cyprus"].filter(Boolean).join(", ");
+      return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(textDestination)}`;
+    }
+
+    function distanceKm(lat1, lng1, lat2, lng2) {
+      if (!lat1 || !lng1 || !lat2 || !lng2) return Number.POSITIVE_INFINITY;
+      const earthRadiusKm = 6371;
+      const dLat = toRad(lat2 - lat1);
+      const dLng = toRad(lng2 - lng1);
+      const a = Math.sin(dLat / 2) ** 2
+        + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+      return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function toRad(value) {
+      return value * Math.PI / 180;
+    }
+
+    function safePhone(value) {
+      return String(value || "").replace(/[^0-9+]/g, "");
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    elements.searchInput.addEventListener("input", render);
+    elements.districtSelect.addEventListener("change", render);
+    elements.nearestButton.addEventListener("click", () => {
+      if (!navigator.geolocation) {
+        alert("Your browser does not support location access.");
+        return;
+      }
+
+      elements.nearestButton.disabled = true;
+      elements.nearestButton.textContent = "Getting location…";
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          L.circleMarker([userLocation.lat, userLocation.lng], {
+            radius: 8,
+            weight: 3,
+            fillOpacity: 0.75
+          }).addTo(map).bindPopup("Your location");
+
+          elements.nearestButton.textContent = "Location enabled";
+          elements.nearestButton.disabled = false;
+          render();
+        },
+        () => {
+          alert("Location permission was not granted.");
+          elements.nearestButton.textContent = "Use my location";
+          elements.nearestButton.disabled = false;
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 120000 }
+      );
+    });
+
+    loadData();
+  </script>
+</body>
+</html>
