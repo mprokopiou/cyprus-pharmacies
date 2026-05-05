@@ -442,7 +442,7 @@
           <p>${escapeHtml(pharmacy.address || "Address not available")}</p>
           <p>${escapeHtml(pharmacy.area || "")}</p>
           ${pharmacy.additionalInfo ? `<p>${escapeHtml(pharmacy.additionalInfo)}</p>` : ""}
-          ${pharmacy.distanceKm ? `<p><strong>${pharmacy.distanceKm.toFixed(1)} km away</strong></p>` : ""}
+          ${Number.isFinite(pharmacy.distanceKm) ? `<p><strong>${pharmacy.distanceKm.toFixed(1)} km away</strong></p>` : ""}
           <div class="actions">
             <a class="directions" href="${directionsUrl(pharmacy)}" target="_blank" rel="noopener">Directions</a>
             <a class="call" href="tel:${safePhone(pharmacy.phone)}">Call</a>
