@@ -1,41 +1,10 @@
 {
-    "updatedAt": "2026-06-19T19:18:52+03:00",
-    "date": "2026-06-19",
+    "updatedAt": "2026-06-20T18:22:32+03:00",
+    "date": "2026-06-20",
     "source": "Pharmaceutical Services / data.gov.cy - Κατάλογος Διημερευόντων Φαρμακείων",
     "sourceUrl": "https://www.data.gov.cy/el/dataset/katalogos-diimereyonton-farmakeion",
     "license": "Creative Commons Attribution 4.0 International",
-    "total": 2,
-    "missingCoordinates": 2,
-    "pharmacies": [
-        {
-            "id": "famagusta-505-20260619",
-            "regNo": "505",
-            "name": "Κούρτη-Στυλιανού Γρηγορία",
-            "district": "Αμμόχωστος",
-            "area": "Λιοπέτρι",
-            "address": "Γρίβα Διγενή 12, Λιοπέτρι",
-            "additionalInfo": "",
-            "phone": "23942566",
-            "housePhone": "99321414",
-            "date": "2026-06-19",
-            "day": "Παρασκευή",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "id": "famagusta-904-20260619",
-            "regNo": "904",
-            "name": "Στυλιανού Στέλιος",
-            "district": "Αμμόχωστος",
-            "area": "Παραλίμνι",
-            "address": "Σωτήρας 7Α",
-            "additionalInfo": "Έναντι Κλινικής \"Λητώ\"",
-            "phone": "23812040",
-            "housePhone": "23744313",
-            "date": "2026-06-19",
-            "day": "Παρασκευή",
-            "lat": null,
-            "lng": null
-        }
-    ]
+    "total": 0,
+    "missingCoordinates": 0,
+    "pharmacies": []
 }
