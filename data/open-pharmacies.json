@@ -1,10 +1,71 @@
 {
-    "updatedAt": "2026-07-22T18:20:24+03:00",
-    "date": "2026-07-22",
+    "updatedAt": "2026-07-23T18:32:51+03:00",
+    "date": "2026-07-23",
     "source": "Pharmaceutical Services / data.gov.cy - Κατάλογος Διημερευόντων Φαρμακείων",
     "sourceUrl": "https://www.data.gov.cy/el/dataset/katalogos-diimereyonton-farmakeion",
     "license": "Creative Commons Attribution 4.0 International",
-    "total": 0,
-    "missingCoordinates": 0,
-    "pharmacies": []
+    "total": 4,
+    "missingCoordinates": 4,
+    "pharmacies": [
+        {
+            "id": "nicosia-1235-20260723",
+            "regNo": "1235",
+            "name": "Γεωργίου Χάρις",
+            "district": "Λευκωσία",
+            "area": "Έγκωμη",
+            "address": "28ης Οκτωβρίου 1, κατ.11",
+            "additionalInfo": "Δίπλα από παγωτά Παπαφιλίππου",
+            "phone": "22255535",
+            "housePhone": "94056656",
+            "date": "2026-07-23",
+            "day": "Πέμπτη",
+            "lat": null,
+            "lng": null
+        },
+        {
+            "id": "nicosia-626-20260723",
+            "regNo": "626",
+            "name": "Πετρίκκος Δημήτρης",
+            "district": "Λευκωσία",
+            "area": "Δάλι",
+            "address": "Δημήτρη Χάματσου 51 Β",
+            "additionalInfo": "Απεναντι απο Εκκλησια Παναγια Ευαγγελιστρια, Δάλι",
+            "phone": "22523500",
+            "housePhone": "99934501",
+            "date": "2026-07-23",
+            "day": "Πέμπτη",
+            "lat": null,
+            "lng": null
+        },
+        {
+            "id": "nicosia-1019-20260723",
+            "regNo": "1019",
+            "name": "Βρακάς Δημήτρης",
+            "district": "Λευκωσία",
+            "area": "Λακατάμεια",
+            "address": "Λεωφ. Αρχ. Μακαρίου Γ΄ 265",
+            "additionalInfo": "Έναντι Marks & Spencer Λακατάμειας",
+            "phone": "22384900",
+            "housePhone": "22384900",
+            "date": "2026-07-23",
+            "day": "Πέμπτη",
+            "lat": null,
+            "lng": null
+        },
+        {
+            "id": "nicosia-762-20260723",
+            "regNo": "762",
+            "name": "Χριστοφίδης Χάρης",
+            "district": "Λευκωσία",
+            "area": "Στρόβολος",
+            "address": "Περικλέους 39Α",
+            "additionalInfo": "Μετ. Φώτων Κώστα Θεοδώρου και Κληματαριάς",
+            "phone": "22511351",
+            "housePhone": "22319454",
+            "date": "2026-07-23",
+            "day": "Πέμπτη",
+            "lat": null,
+            "lng": null
+        }
+    ]
 }
