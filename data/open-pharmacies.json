@@ -1,56 +1,10 @@
 {
-    "updatedAt": "2026-08-29T20:20:22+03:00",
-    "date": "2026-08-29",
+    "updatedAt": "2026-08-30T20:43:14+03:00",
+    "date": "2026-08-30",
     "source": "Pharmaceutical Services / data.gov.cy - Κατάλογος Διημερευόντων Φαρμακείων",
     "sourceUrl": "https://www.data.gov.cy/el/dataset/katalogos-diimereyonton-farmakeion",
     "license": "Creative Commons Attribution 4.0 International",
-    "total": 3,
-    "missingCoordinates": 3,
-    "pharmacies": [
-        {
-            "id": "limassol-1053-20260829",
-            "regNo": "1053",
-            "name": "Κοϊτσεβα Μποζάνα",
-            "district": "Λεμεσός",
-            "area": "Ύψωνας",
-            "address": "Ύψωνας, Πεντέλης 6",
-            "additionalInfo": "Έξοδος Ύψωνας, Άγιος Σιλάς, πλησίον εκκλησίας Αγίου Σάββα",
-            "phone": "25510101",
-            "housePhone": "25932220",
-            "date": "2026-08-29",
-            "day": "Σάββατο",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "id": "limassol-945-20260829",
-            "regNo": "945",
-            "name": "Σακκάς Γεώργιος",
-            "district": "Λεμεσός",
-            "area": "Λεμεσός",
-            "address": "Αγίας Ζώνης 23Β",
-            "additionalInfo": "Μεταξύ της Εκκλησίας Αγίας Ζώνης & Πενταδρόμου",
-            "phone": "25366299",
-            "housePhone": "25342543",
-            "date": "2026-08-29",
-            "day": "Σάββατο",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "id": "limassol-1017-20260829",
-            "regNo": "1017",
-            "name": "Χριστοδούλου Γιάννης",
-            "district": "Λεμεσός",
-            "area": "Λεμεσός",
-            "address": "Αρχιεπισκόπου Λεοντίου Α‘ 224",
-            "additionalInfo": "Δρόμος Παλαιού Νοσοκομείου",
-            "phone": "25828890",
-            "housePhone": "9952665399526653",
-            "date": "2026-08-29",
-            "day": "Σάββατο",
-            "lat": null,
-            "lng": null
-        }
-    ]
+    "total": 0,
+    "missingCoordinates": 0,
+    "pharmacies": []
 }
