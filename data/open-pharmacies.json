@@ -1,41 +1,10 @@
 {
-    "updatedAt": "2026-11-19T23:43:51+02:00",
-    "date": "2026-11-19",
+    "updatedAt": "2026-11-20T23:27:19+02:00",
+    "date": "2026-11-20",
     "source": "Pharmaceutical Services / data.gov.cy - Κατάλογος Διημερευόντων Φαρμακείων",
     "sourceUrl": "https://www.data.gov.cy/el/dataset/katalogos-diimereyonton-farmakeion",
     "license": "Creative Commons Attribution 4.0 International",
-    "total": 2,
-    "missingCoordinates": 2,
-    "pharmacies": [
-        {
-            "id": "famagusta-1201-20261119",
-            "regNo": "1201",
-            "name": "Προκοπίου Άνδρη - Παναγιώτα",
-            "district": "Αμμόχωστος",
-            "area": "Δερύνεια",
-            "address": "Μακαρίου Γ', 36",
-            "additionalInfo": "",
-            "phone": "23730725",
-            "housePhone": "23730725",
-            "date": "2026-11-19",
-            "day": "Πέμπτη",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "id": "famagusta-641-20261119",
-            "regNo": "641",
-            "name": "Γιάλλουρος Πανίκος",
-            "district": "Αμμόχωστος",
-            "area": "Παραλίμνι",
-            "address": "1ης Απριλίου 184",
-            "additionalInfo": "Απέναντι από την υπεραγορά ΣΚΛΑΒΕΝΙΤΗΣ",
-            "phone": "23825979",
-            "housePhone": "23744771",
-            "date": "2026-11-19",
-            "day": "Πέμπτη",
-            "lat": null,
-            "lng": null
-        }
-    ]
+    "total": 0,
+    "missingCoordinates": 0,
+    "pharmacies": []
 }
